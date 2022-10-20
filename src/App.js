@@ -3,10 +3,13 @@ import {useState} from 'react'
 import './App.css';
 import{ v4 as uuid} from 'uuid'
 import Todo from './Components/Todo';
+import EditTodo from './Components/EditTodo';
 function App() {
 
     const [todos, setTodos] = useState([])
     const [todo, setTodo] = useState ('')
+    const [selectedTodo, setSelectedTodo] = useState(null)
+
     const addTodo = () => {
       const newTodo = {
             id: uuid(),
@@ -30,6 +33,16 @@ function App() {
         setTodos(todos.map(todo => todo.id === id ? {...todo, isChecked: !todo.isChecked} : todo ))
     }
 
+    const editTodo = (id) => {
+        setSelectedTodo(todos.find(todo => todo.id === id))
+    }
+
+    const updateTodo = (updatedTodo) => {
+
+        setTodos(todos.map(todo => todo.id === updatedTodo.id ? updatedTodo : todo ))
+        setSelectedTodo(null)
+    }
+
     return(
     <div className="App">
       <div className="container my-4">
@@ -44,8 +57,11 @@ function App() {
           </div>
         </div>
         <div className="todo-row d-flex flex-wrap my-5">
-            {todos.map(todo => <Todo key={todo.id} todo={todo}  deleteTodo={deleteTodo}  darkMode={darkMode}/>) }
+            {todos.map(todo => <Todo key={todo.id} todo={todo}  deleteTodo={deleteTodo}  darkMode={darkMode} editTodo={editTodo}/>) }
         </div>
+          <div className="row">
+              {selectedTodo && <EditTodo todo={selectedTodo} updateTodo={updateTodo} />}
+          </div>
       </div>
     </div>
   )

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Todo = (props) => {
-    const{todo, deleteTodo, darkMode} = props
+    const{todo, deleteTodo, darkMode, editTodo} = props
     const{id, text, isChecked } = todo
     const classes = ['col-sm-9', 'todo-col', 'my-3']
     if (isChecked) classes.push('text-white', 'bg-black')
@@ -18,7 +18,7 @@ const Todo = (props) => {
                     </button>
                 </div>
                 <div className="col-sm-1 my-3">
-                    <button className="btn btn-secondary w-100" >
+                    <button className="btn btn-secondary w-100" data-id={id} onClick={() => {editTodo(id)}}>
                         <i className="fa-solid fa-arrow-rotate-left"></i>
                     </button>
                 </div>
